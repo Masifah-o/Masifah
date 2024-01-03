@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <!-- Page title -->
+  <h1>Task Details</h1>
+
+  <hr>
+
+  <!-- List containing task details -->
+  <ul>
+    <!-- Display task category in a slightly smaller heading -->
+    <h5>{{ task.category }}</h5>
+
+    <!-- Subheading for task details using an even smaller heading -->
+    <h7>
+      <!-- Display task details and completion status -->
+      {{ task.task }} <br/>
+      <br/>
+
+      <!-- Conditional display based on task completion status -->
+      {% if task.completed %}
+          {{ task.task }} - Completed
+      {% else %}
+          {{ task.task }} is Incomplete
+      {% endif %}
+
+      <br/><br/>
+
+      <!-- Buttons for editing and deleting the task -->
+      <button><a href="{% url 'edit_task' task.pk %}">Edit</a></button>
+      <button><a href="{% url 'delete_task' task.pk %}">Delete</a></button>
+    </h7>
+  </ul>
+
+{% endblock %}

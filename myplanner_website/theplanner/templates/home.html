@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <!-- Page title -->
+  <h1>Timetable</h1>
+
+  <!-- List of home entries displayed in the timetable -->
+  <ul>
+    {% for entry in home_entries %}
+      <li>{{ entry.startTime }} - {{ entry.endTime }}: {{ entry.activity }}</li>
+    {% endfor %}
+  </ul>
+
+  <!-- Link to add a new activity -->
+  <a href="{% url 'create_home_entry' %}">Add Activity</a>
+
+  <br/><br/>
+
+  <!-- Sort options for the timetable -->
+  <div>
+    <a href="?sort=start_time">Sort by Start Time</a> <br/>
+    <a href="?sort=duration">Sort by Duration</a>
+  </div>
+
+  <!-- Display an error message if there is an overlap error -->
+  {% if overlap_error %}
+    <p style="color: red;">Error: The new activity overlaps with an existing activity.</p>
+  {% endif %}
+
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <!-- Page title -->
+  <h1>Create Home Entry</h1>
+
+  <!-- Display error message if there is one -->
+  {% if error_message %}
+    <p style="color: red;">{{ error_message }}</p>
+  {% endif %}
+
+  <!-- Form for creating a new home entry -->
+  <form method="post" action="{% url 'create_home_entry' %}">
+    {% csrf_token %} <!-- CSRF token for security purposes -->
+
+    <!-- Render form fields as paragraphs -->
+    {{ form.as_p }}
+
+    <!-- Submit button to add a new entry -->
+    <button type="submit">Add Entry</button>
+  </form>
+
+  <!-- Link to go back to the home page -->
+  <a href="{% url 'home' %}">Back to Home</a>
+{% endblock %}

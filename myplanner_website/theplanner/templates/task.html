@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <!-- Page title -->
+  <h1>Tasks</h1>
+
+  <hr>
+
+  <!-- Displaying task category and details -->
+  <h5>{{ task.category }}</h5>
+  <small> {{ task.task }} </small>
+
+{% endblock %}

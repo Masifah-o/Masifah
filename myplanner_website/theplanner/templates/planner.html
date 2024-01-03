@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <!-- Page title -->
+  <h1>Planner</h1>
+
+  <hr>
+
+  <!-- Subheading for time slots -->
+  <h5>Time Slots Available:</h5>
+
+  <!-- List of time slots available in the planner -->
+  <ul>
+    {% for planner in planners %}
+        <li>{{ planner.timeSlot }} m</li>
+    {% endfor %}
+  </ul>
+
+  <!-- Heading for the calendar section -->
+  <h1>Calendar</h1>
+
+  <!-- Display calendar entries for each planner -->
+  {% for row in planners %}
+      <ul>
+          <!-- Iterate through calendar entries for the current planner -->
+          {% for entry in row.calendarday_set.all %}
+              <li>{{ entry.day_of_week }} - {{ entry.amount }}</li>
+          {% endfor %}
+      </ul>
+  {% endfor %}
+
+{% endblock %}

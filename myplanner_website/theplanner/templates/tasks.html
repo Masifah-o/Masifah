@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <!-- Page title -->
+  <h1>Task</h1>
+
+  <!-- Input field for searching tasks -->
+  <input type="text" id="searchInput" placeholder="Search tasks" onkeyup="searchTasks()">
+
+  <br/>
+
+  <!-- List of tasks with conditional formatting based on completion status -->
+  <ul id="taskList">
+    {% for task in object_list %}
+      <li>
+        {% if task.completed %}
+          <!-- Strikethrough the task name if completed -->
+          <strike><a href="{% url 'task_details' task.pk %}">{{ task.task }}</a></strike> - Completed
+        {% else %}
+          <!-- Display the task name as a link if incomplete -->
+          <a href="{% url 'task_details' task.pk %}">{{ task.task }}</a> - Incomplete
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+
+  <!-- Display the percentage of tasks completed -->
+  <small>Percentage of tasks completed: {{ percentage_completed }}%</small>
+
+  <!-- JavaScript function for dynamically searching and updating the task list -->
+  <script>
+      function searchTasks() {
+          // Get the input, filter, task list, and list items
+          var input, filter, ul, li, a, i, txtValue;
+          input = document.getElementById("searchInput");
+          filter = input.value.toUpperCase();
+          ul = document.getElementById("taskList");
+          li = ul.getElementsByTagName("li");
+
+          // Iterate through the list items and hide/display based on the filter
+          for (i = 0; i < li.length; i++) {
+              a = li[i].getElementsByTagName("a")[0];
+              txtValue = a.textContent || a.innerText;
+
+              if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                  li[i].style.display = "";
+              } else {
+                  li[i].style.display = "none";
+              }
+          }
+
+          // Make an asynchronous request to the server to get filtered tasks
+          $.ajax({
+              url: '{% url "task" %}',
+              data: { 'search': filter },
+              dataType: 'json',
+              success: function (data) {
+                  var taskList = document.getElementById("taskList");
+                  taskList.innerHTML = ""; // Clear the existing list
+
+                  // Populate the list with filtered tasks from the server
+                  for (var i = 0; i < data.tasks.length; i++) {
+                      var task = data.tasks[i];
+                      var listItem = document.createElement("li");
+                      listItem.innerHTML = '';
+                      if (task.id !== undefined && task.id !== null && task.id !== '') {
+                          // Display the task as a link if it has an ID
+                          listItem.innerHTML = '<a href="{% url "task" %}">' + task.task + '</a>';
+                      } else {
+                          // Display the task as plain text if it doesn't have an ID
+                          listItem.innerHTML = '<span>' + task.task + '</span>';
+                      }
+
+                      taskList.appendChild(listItem);
+                  }
+              }
+          });
+      }
+  </script>
+
+{% endblock %}

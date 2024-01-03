@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <!-- Page title -->
+  <h1>Planner</h1>
+
+  <!-- List of time slots displayed in the planner -->
+  <ul>
+    {% for planner in object_list %}
+        <li> {{ planner.timeSlot }} </li>
+    {% endfor %}
+  </ul>
+
+{% endblock %}

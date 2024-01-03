@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <!-- Page title -->
+  <h1>Delete Task</h1>
+
+  <!-- Display task information for deletion -->
+  <h3>Delete: {{ task.task }}</h3>
+
+  <!-- Form for deleting the task -->
+  <form method="post">
+    {% csrf_token %} <!-- CSRF token for security purposes -->
+
+    <!-- Render form fields as paragraphs -->
+    {{ form.as_p }}
+
+    <!-- Submit button to delete the task -->
+    <button type="submit">Delete</button>
+  </form>
+
+{% endblock %}
